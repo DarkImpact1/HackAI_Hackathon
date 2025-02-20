@@ -1,3 +1,4 @@
-tensorflow 
-keras
+opencv-python
+numpy
+tensorflow
 streamlit
