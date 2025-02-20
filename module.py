@@ -5,8 +5,7 @@ import tensorflow as tf
 from tensorflow.keras.models import load_model
 
 # Get absolute path to the model
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # Get script's directory
-model_path = os.path.join(BASE_DIR, "Model", "Medical_Assistant.h5")
+model_path = os.path.join("Model", "Medical_Assistant.h5")
 
 # Debugging: Print the absolute model path
 print("Loading model from:", model_path)
