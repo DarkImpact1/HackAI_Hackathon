@@ -2,3 +2,7 @@ opencv-python
 numpy
 tensorflow
 streamlit
+transformers
+torch
+torchvision
+pillow
