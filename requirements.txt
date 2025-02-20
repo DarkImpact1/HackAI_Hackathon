@@ -1,4 +1,3 @@
 tensorflow 
 keras
-opencv-python-headless
 streamlit
