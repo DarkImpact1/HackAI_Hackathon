@@ -1,12 +1,8 @@
 import os
 import cv2
 import numpy as np
-import zipfile
-import io
-import tempfile
 import tensorflow as tf
 from tensorflow.keras.models import load_model
-from tensorflow.keras.preprocessing.image import load_img, img_to_array
 from transformers import AutoImageProcessor, AutoModelForImageClassification
 import torch
 from PIL import Image
@@ -43,55 +39,36 @@ def predict_pneumonia_image(image_path):
     return label, prediction
 
 # Function for which will unzip the skin cancer detector model and process the image for the 
+# Load Skin Cancer Classifier Model
+skin_processor = AutoImageProcessor.from_pretrained("NeuronZero/SkinCancerClassifier")
+skin_model = AutoModelForImageClassification.from_pretrained("NeuronZero/SkinCancerClassifier")
 
-skin_cancer_detector_path = os.path.join("Model","model.zip")
+def skin_cancer_prediction(skin_image_path):
+    skin_image = Image.open(skin_image_path).convert("RGB")
 
-# def load_skin_model_from_zip(zip_path):
-#     with zipfile.ZipFile(zip_path, 'r') as zip_ref:
-#         with tempfile.TemporaryDirectory() as temp_dir:
-#             zip_ref.extractall(temp_dir)  # Extract to a temporary directory
+    # Preprocess image
+    skin_inputs = skin_processor(images=skin_image, return_tensors="pt")
 
-#             # Find the model file inside extracted files
-#             model_path = os.path.join(temp_dir, "model.h5")  # Change this if needed
+    # Perform inference
+    with torch.no_grad():
+        skin_outputs = skin_model(**skin_inputs)
 
-#             # Load the model
-#             model = tf.keras.models.load_model(model_path)
-    
-#     return model
+    # Get predicted class
+    skin_logits = skin_outputs.logits
+    skin_predicted_class = skin_logits.argmax(-1).item()
 
-# def process_skin_image(image_path, target_size=(224, 224)):
-#     """
-#     Processes an image for model prediction.
-
-#     Parameters:
-#         image_path (str): Path to the image file.
-#         target_size (tuple): Desired image size (default: (224, 224)).
-
-#     Returns:
-#         numpy.ndarray: Preprocessed image array.
-#     """
-#     img = load_img(image_path, target_size=target_size)
-#     img_array = img_to_array(img) / 255.0
-#     img_array = np.expand_dims(img_array, axis=0)
-#     return img_array
-
-# def predict_skin_image(image_path):
-#     """
-#     Loads the model from zip, processes the image, and returns predictions.
-
-#     Parameters:
-#         model_zip_path (str): Path to the zipped model file.
-#         image_path (str): Path to the image file for prediction.
-
-#     Returns:
-#         numpy.ndarray: Prediction output from the model.
-#     """
-#     model = load_skin_model_from_zip(skin_cancer_detector_path)
-#     img_array = process_skin_image(image_path)
-#     benign_prob, malignant_prob = model.predict(img_array)[0]
-#     return benign_prob,malignant_prob
-
-
+    # Get class labels
+    # skin_id2label = skin_model.config.id2label
+    skin_id2label = {
+        5: "Melanocytic Nevus (Benign Mole)",  # NV
+        4: "Melanoma (Skin Cancer)",  # MEL
+        0: "Actinic Keratosis (Precancerous Lesion)",  # AK
+        1: "Basal Cell Carcinoma (Skin Cancer)",  # BCC
+        3: "Dermatofibroma (Non-Cancerous Skin Growth)",  # DF
+        2: "Benign Keratosis-like Lesion (Harmless Skin Spot)"  # BKL
+    }
+    skin_prediction_label = skin_id2label[skin_predicted_class]
+    return skin_prediction_label
 
 # this is for the Bone fracture classification
 

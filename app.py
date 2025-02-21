@@ -1,5 +1,5 @@
 import streamlit as st
-from module import predict_pneumonia_image, classify_fracture
+from module import predict_pneumonia_image, classify_fracture, skin_cancer_prediction
 import os
 
 # Set Streamlit page configuration
@@ -13,6 +13,7 @@ def configure_page():
 
 # ---- TOP BAR ----
 def top_bar():
+    st.title("🩺 Medi Assist")
     st.markdown(
         """
         <style>
@@ -37,25 +38,34 @@ def top_bar():
         """,
         unsafe_allow_html=True
     )
-
+    st.header("How to Use")
+    st.write("""
+             1. Select the disease you want to detect from the dropdown menu.
+             2. Upload a chest X-ray image.
+             3. Wait for the AI model to analyze.
+             4. Get a prediction along with confidence score.
+             5. Repeat for more images or try different models.
+            """)
     # ---- SIDEBAR ----
     st.sidebar.header("About This App")
-    st.sidebar.write("This AI-powered tool detects **Pneumonia** from chest X-ray images using Deep Learning.")
-
-    st.sidebar.header("How to Use")
     st.sidebar.write("""
-    1. Upload a **chest X-ray image** 📤  
-    2. Wait for the **AI model to analyze** 🧠  
-    3. Get a **prediction along with confidence score** 🏥  
-    """)
+                     ### **AI-Powered Early Disease Detection System**  
+
+This is an AI model capable of analyzing medical images (X-rays, MRIs, etc.) to detect early-stage diseases such as cancer, tuberculosis, and fractures with high accuracy.
+                      This technology aims to assist doctors by providing rapid and reliable diagnostics, reducing their workload and enabling faster treatment decisions.
+                     By leveraging AI for early detection, the system can significantly improve patient outcomes while ensuring accessibility for underprivileged
+                     communities through compatibility with low-cost hardware. Additionally, this solution promotes sustainability by minimizing
+                     the need for excessive medical tests, optimizing resource utilization, and enhancing healthcare efficiency.
+                     """)
+
 
 def main_ui():
 
     # ---- MAIN UI ----
-    st.title("🩺 Medi Assist")
     
         # Dropdown for disease selection
-    option = st.selectbox("Select Disease to Detect:", ["Detect Pneumonia", "Detect Fracture"])
+    # option = st.selectbox("Select Disease to Detect:", ["Detect Pneumonia", "Detect Fracture","Detect Skin Cancer"])
+    option = st.radio("Select Disease to Detect:", ["Detect Pneumonia", "Detect Fracture", "Detect Skin Cancer"])
 
     # File uploader
     uploaded_file = st.file_uploader("Upload a Chest X-ray Image", type=["jpg", "png", "jpeg"])
@@ -81,13 +91,17 @@ def main_ui():
                 label, confidence = predict_pneumonia_image(file_path)
                 st.success(f"**{label}**")
                 st.write(f"**Confidence Score:** {confidence:.2f}")
-            # elif option == "Detect Skin Cancer":
-            #     benign_prob, malignant_prob = predict_skin_image(file_path)
-            #     st.write(f"Probablity of cancer being Benign : {benign_prob:.2f}")
-            #     st.write(f"Probability of cancer being Malignant : **{malignant_prob:.2f}**")
+
             elif option == "Detect Fracture":
                 fracture_prediction = classify_fracture(image_path=file_path)
                 st.write(f"**{fracture_prediction}**")
+
+            elif option == "Detect Skin Cancer":
+                skin_prediction = skin_cancer_prediction(skin_image_path=file_path)
+                st.write(f"**{skin_prediction}**")
+        # Remove the uploaded image
+        os.remove(file_path)
+
 
 
     # ---- FOOTER ----
