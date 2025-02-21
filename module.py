@@ -60,13 +60,14 @@ def skin_cancer_prediction(skin_image_path):
     # Get class labels
     # skin_id2label = skin_model.config.id2label
     skin_id2label = {
-        5: "Melanocytic Nevus (Benign Mole)",  # NV
-        4: "Melanoma (Skin Cancer)",  # MEL
-        0: "Actinic Keratosis (Precancerous Lesion)",  # AK
-        1: "Basal Cell Carcinoma (Skin Cancer)",  # BCC
-        3: "Dermatofibroma (Non-Cancerous Skin Growth)",  # DF
-        2: "Benign Keratosis-like Lesion (Harmless Skin Spot)"  # BKL
+        0: "Actinic Keratosis (Pre-cancerous skin patch)",  # AK
+        1: "Basal Cell Carcinoma (Common type of skin cancer)",  # BCC
+        2: "Benign Keratosis-like Lesion (Harmless skin growth)",  # BKL
+        3: "Dermatofibroma (Small, firm skin bump)",  # DF
+        4: "Melanoma (Dangerous skin cancer)",  # MEL
+        5: "Melanocytic Nevus (Normal mole or birthmark)"  # NV
     }
+
     skin_prediction_label = skin_id2label[skin_predicted_class]
     return skin_prediction_label
 
