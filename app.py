@@ -70,8 +70,7 @@ def main_ui():
 
     # ---- MAIN UI ----
     
-        # Dropdown for disease selection
-    # option = st.selectbox("Select Disease to Detect:", ["Detect Pneumonia", "Detect Fracture","Detect Skin Cancer"])
+        # radio button for disease selection
     st.write("### Select Disease to Detect:")
     option = st.radio("", ["Detect Pneumonia", "Detect Fracture", "Detect Skin Cancer"])
 
