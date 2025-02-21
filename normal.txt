@@ -1,6 +1,7 @@
 import streamlit as st
 import os
 import base64
+import streamlit.components.v1 as components
 from module import predict_pneumonia_image, classify_fracture, skin_cancer_prediction
 
 
@@ -58,8 +59,55 @@ def top_bar():
     st.sidebar.write("""
         1. Select the disease to detect.
         2. Upload an image or capture one using your camera.
-        3. AI will analyze and provide a **diagnosis** with a **confidence score**.
+        3. Choose between **front** and **rear camera**.
+        4. AI will analyze and provide a **diagnosis** with a **confidence score**.
     """)
+
+
+# ---- REAR CAMERA COMPONENT ----
+def rear_camera_component():
+    rear_camera_html = """
+        <style>
+            video { width: 100%; border-radius: 10px; }
+            button { 
+                display: block; 
+                margin: 10px auto; 
+                padding: 10px 15px; 
+                font-size: 16px; 
+                background-color: #0a66c2; 
+                color: white; 
+                border: none; 
+                cursor: pointer; 
+                border-radius: 5px;
+            }
+        </style>
+
+        <video id="video" autoplay></video>
+        <button id="capture">Capture Image</button>
+        <canvas id="canvas" style="display:none;"></canvas>
+
+        <script>
+            (async () => {
+                const constraints = { video: { facingMode: "environment" } };  // Rear Camera
+                const stream = await navigator.mediaDevices.getUserMedia(constraints);
+                document.getElementById("video").srcObject = stream;
+
+                document.getElementById("capture").addEventListener("click", () => {
+                    const video = document.getElementById("video");
+                    const canvas = document.getElementById("canvas");
+                    const context = canvas.getContext("2d");
+
+                    canvas.width = video.videoWidth;
+                    canvas.height = video.videoHeight;
+                    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+                    const imageData = canvas.toDataURL("image/jpeg");
+                    window.parent.postMessage(imageData, "*");
+                });
+            })();
+        </script>
+    """
+    components.html(rear_camera_html, height=500)
 
 
 # ---- MAIN UI ----
@@ -70,10 +118,11 @@ def main_ui():
 
     # Image Upload or Camera Input
     st.write("### Upload an Image or Capture Using Camera:")
-    upload_option = st.radio("", ["Upload an Image", "Capture Using Front Camera"])
+    upload_option = st.radio("", ["Upload an Image", "Capture Using Front Camera", "Capture Using Rear Camera"])
 
     uploaded_file = None
     captured_image = None
+    rear_image_data = None
 
     if upload_option == "Upload an Image":
         uploaded_file = st.file_uploader("Upload an X-ray Image:", type=["jpg", "png", "jpeg"])
@@ -81,16 +130,26 @@ def main_ui():
     elif upload_option == "Capture Using Front Camera":
         captured_image = st.camera_input("Capture an Image Using Front Camera")
 
+    elif upload_option == "Capture Using Rear Camera":
+        st.write("### Rear Camera View:")
+        rear_camera_component()
+        rear_image_data = st.text_area("Paste the captured image data here:", "")
+
     # Process Image
-    if uploaded_file or captured_image:
+    if uploaded_file or captured_image or rear_image_data:
         image_source = uploaded_file if uploaded_file else captured_image
 
         # Save Image
         os.makedirs("sample_images", exist_ok=True)
         file_path = os.path.join("sample_images", "captured_image.jpg")
 
-        with open(file_path, "wb") as f:
-            f.write(image_source.getbuffer())
+        if rear_image_data:
+            image_bytes = base64.b64decode(rear_image_data.split(",")[1])
+            with open(file_path, "wb") as f:
+                f.write(image_bytes)
+        else:
+            with open(file_path, "wb") as f:
+                f.write(image_source.getbuffer())
 
         # Display Image
         col1, col2 = st.columns([1, 1])
@@ -139,3 +198,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    
