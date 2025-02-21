@@ -13,7 +13,6 @@ def configure_page():
 
 # ---- TOP BAR ----
 def top_bar():
-    st.title("🩺 Medi Assist")
     st.markdown(
         """
         <style>
@@ -38,18 +37,12 @@ def top_bar():
         """,
         unsafe_allow_html=True
     )
-    st.header("How to Use")
-    st.write("""
-             1. Select the disease you want to detect from the dropdown menu.
-             2. Upload a chest X-ray image.
-             3. Wait for the AI model to analyze.
-             4. Get a prediction along with confidence score.
-             5. Repeat for more images or try different models.
-            """)
+    st.title("🩺 Medi Assist")
+
     # ---- SIDEBAR ----
-    st.sidebar.header("About This App")
-    st.sidebar.write("""
-                     ### **AI-Powered Early Disease Detection System**  
+    st.header("About This App")
+    st.write("""
+                     ##### **AI-Powered Early Disease Detection System**  
 
 This is an AI model capable of analyzing medical images (X-rays, MRIs, etc.) to detect early-stage diseases such as cancer, tuberculosis, and fractures with high accuracy.
                       This technology aims to assist doctors by providing rapid and reliable diagnostics, reducing their workload and enabling faster treatment decisions.
@@ -57,6 +50,14 @@ This is an AI model capable of analyzing medical images (X-rays, MRIs, etc.) to 
                      communities through compatibility with low-cost hardware. Additionally, this solution promotes sustainability by minimizing
                      the need for excessive medical tests, optimizing resource utilization, and enhancing healthcare efficiency.
                      """)
+    st.sidebar.header("How to Use")
+    st.sidebar.write("""
+             1. Select the disease you want to detect from the dropdown menu.
+             2. Upload a chest X-ray image.
+             3. Wait for the AI model to analyze.
+             4. Get a prediction along with confidence score.
+             5. Repeat for more images or try different models.
+            """)
 
 
 def main_ui():
@@ -65,10 +66,10 @@ def main_ui():
     
         # Dropdown for disease selection
     # option = st.selectbox("Select Disease to Detect:", ["Detect Pneumonia", "Detect Fracture","Detect Skin Cancer"])
-    option = st.radio("Select Disease to Detect:", ["Detect Pneumonia", "Detect Fracture", "Detect Skin Cancer"])
+    option = st.radio("### Select Disease to Detect:", ["Detect Pneumonia", "Detect Fracture", "Detect Skin Cancer"])
 
     # File uploader
-    uploaded_file = st.file_uploader("Upload a Chest X-ray Image", type=["jpg", "png", "jpeg"])
+    uploaded_file = st.file_uploader("Upload a xRay Image which you want to verify ", type=["jpg", "png", "jpeg"])
 
     if uploaded_file:
         # Create a directory if not exists
