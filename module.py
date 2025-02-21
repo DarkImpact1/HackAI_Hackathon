@@ -65,9 +65,11 @@ def skin_cancer_prediction(skin_image_path):
         2: "Benign Keratosis-like Lesion (Harmless skin growth)",  # BKL
         3: "Dermatofibroma (Small, firm skin bump)",  # DF
         4: "Melanoma (Dangerous skin cancer)",  # MEL
-        5: "Melanocytic Nevus (Normal mole or birthmark)"  # NV
+        5: "Melanocytic Nevus (Normal mole or birthmark)",  # NV
+        6: "Vascular Lesion (Abnormal blood vessels)" # VASC
     }
-
+    if(skin_predicted_class not in skin_id2label):
+        return "not know by model"
     skin_prediction_label = skin_id2label[skin_predicted_class]
     return skin_prediction_label
 
