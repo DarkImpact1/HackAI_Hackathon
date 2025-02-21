@@ -78,7 +78,8 @@ def main_ui():
     if upload_option == "Upload an Image":
         uploaded_file = st.file_uploader("Upload an X-ray Image:", type=["jpg", "png", "jpeg"])
 
-    elif upload_option == "Capture Using Front Camera":
+
+    elif upload_option == "Capture Using Camera":
         captured_image = st.camera_input("Capture an Image Using Camera")
 
     # Process Image
