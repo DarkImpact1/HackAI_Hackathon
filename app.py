@@ -14,31 +14,6 @@ def configure_page():
 
 # ---- TOP BAR ----
 def top_bar():
-    st.markdown(
-        """
-        <style>
-            .top-bar {
-                background-color: #0a66c2;
-                color: white;
-                padding: 10px;
-                text-align: center;
-                font-size: 18px;
-                font-weight: bold;
-                border-radius: 5px;
-            }
-            .top-bar a {
-                color: white;
-                text-decoration: none;
-                font-weight: bold;
-            }
-        </style>
-        <div class="top-bar">
-            Developed by 
-            <a href="https://www.linkedin.com/in/mohit-dwivedi13" target="_blank">Mohit Dwivedi</a> 🩺
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
     st.title("🩺 Medi Assist - AI Diagnosis")
 
     st.write("""
@@ -121,12 +96,28 @@ def main_ui():
     st.markdown("---")
     st.markdown(
         """
-        <p style="text-align:center;">
-            Developed by <a href="https://www.linkedin.com/in/mohit-dwivedi13" target="_blank">Mohit Dwivedi</a>,
+        <style>
+            .bottom-bar {
+                background-color: #0a66c2;
+                color: white;
+                padding: 10px;
+                text-align: center;
+                font-size: 18px;
+                font-weight: bold;
+                border-radius: 5px;
+            }
+            .bottom-bar a {
+                color: white;
+                text-decoration: none;
+                font-weight: bold;
+            }
+        </style>
+        <div class="bottom-bar">
+            Developed by 
+            <a href="https://www.linkedin.com/in/mohit-dwivedi13" target="_blank">Mohit Dwivedi</a> 🩺
             <a href="https://www.linkedin.com/in/charchilraj" target="_blank">Charchil Raj</a>, and 
-            <a href="https://www.linkedin.com/in/suryanshrai011" target="_blank">Suryansh Rai</a> | 
-            © 2025 Medi Assist
-        </p>
+            <a href="https://www.linkedin.com/in/suryanshrai011" target="_blank">Suryansh Rai</a>
+        </div>
         """,
         unsafe_allow_html=True
     )
