@@ -1,9 +1,9 @@
 # AI-Powered Early Disease Detection
 
-## Overview
+## Overview:
 This AI-powered system analyzes medical images (X-rays, MRIs, and dermoscopic images) to detect early-stage diseases, including **Pneumonia, Bone Fractures, and Skin Cancer**. The goal is to assist doctors in quick diagnosis, reduce their workload, and provide timely treatment, especially in underprivileged communities with limited access to healthcare.
 
-## Features
+## Features:
 - **Pneumonia Detection**: Identifies signs of pneumonia in chest X-ray images.
 - **Bone Fracture Detection**: Detects fractures in X-ray images and highlights the affected area.
 - **Skin Cancer Classification**: Classifies skin lesions into six categories:
@@ -58,4 +58,3 @@ For questions or suggestions, feel free to reach out or create an issue on GitHu
 
 ---
 🚀 **Empowering early disease detection through AI!**
-
