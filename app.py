@@ -1,6 +1,5 @@
 import streamlit as st
 import os
-import base64
 from module import predict_pneumonia_image, classify_fracture, skin_cancer_prediction
 
 
@@ -34,7 +33,8 @@ def top_bar():
             }
         </style>
         <div class="top-bar">
-            Developed by <a href="https://www.linkedin.com/in/mohit-dwivedi13" target="_blank">Mohit Dwivedi</a> 🩺
+            Developed by 
+            <a href="https://www.linkedin.com/in/mohit-dwivedi13" target="_blank">Mohit Dwivedi</a> 🩺
         </div>
         """,
         unsafe_allow_html=True
@@ -70,17 +70,17 @@ def main_ui():
 
     # Image Upload or Camera Input
     st.write("### Upload an Image or Capture Using Camera:")
-    upload_option = st.radio("", ["Upload an Image", "Capture Using Front Camera"])
+    upload_option = st.radio("", ["Upload an Image", "Upload Using Camera"])
 
     uploaded_file = None
     captured_image = None
 
     if upload_option == "Upload an Image":
         uploaded_file = st.file_uploader("Upload an X-ray Image:", type=["jpg", "png", "jpeg"])
-
-
-    elif upload_option == "Capture Using Camera":
-        captured_image = st.camera_input("Capture an Image Using Camera")
+    elif upload_option == "Upload Using Camera":
+        captured_image = st.camera_input("Capture an Image Using Camera",label_visibility="hidden")
+    else:
+        st.error("Please select How would you like to upload medical image")
 
     # Process Image
     if uploaded_file or captured_image:
