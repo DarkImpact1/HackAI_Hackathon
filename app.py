@@ -116,6 +116,7 @@ def main_ui():
         # Remove Image After Processing
         os.remove(file_path)
 
+
     # ---- FOOTER ----
     st.markdown("---")
     st.markdown(
