@@ -11,6 +11,7 @@ from PIL import Image
 # Get absolute path to the model
 model_path = os.path.join("Model", "Medical_Assistant.h5")
 
+
 # Debugging: Print the absolute model path
 print("Loading model from:", model_path)
 
